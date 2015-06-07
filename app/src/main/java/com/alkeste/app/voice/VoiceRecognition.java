@@ -1,6 +1,7 @@
 package com.alkeste.app.voice;
 
 import android.app.Activity;
+import android.app.SearchManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -141,6 +142,11 @@ public class VoiceRecognition extends Activity {
             answer = "March twenty two, two thousand fifteen";
         } else if (question.equalsIgnoreCase("Feeling hungry")) {
             answer = "No. You can eat your pizza!";
+        } else if (question.startsWith("google") || question.startsWith("search") || question.startsWith("open")) {
+            answer = "Opening";
+            Intent i = new Intent(Intent.ACTION_WEB_SEARCH);
+            i.putExtra(SearchManager.QUERY, question.substring(question.indexOf(' ')));
+            startActivity(i);
         } else {
             answer = "Sorry, Could you please speak again.";
         }
