@@ -17,7 +17,20 @@ import java.util.TimeZone;
  */
 public class Util {
     public static String getOwnerName(Activity activity) {
-        final String[] SELF_PROJECTION = new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,};
+        final String[] SELF_PROJECTION = new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME };
+        Cursor cursor = activity.getContentResolver().query(
+                ContactsContract.Profile.CONTENT_URI, SELF_PROJECTION, null, null, null);
+        cursor.moveToFirst();
+        return cursor.getString(0);
+    }
+
+    public static String getOwnerFirstName(Activity activity){
+        String name = getOwnerName(activity);
+        return name.substring(name.indexOf(' '));
+    }
+
+    public static String getOwnerNickName(Activity activity){
+        final String[] SELF_PROJECTION = new String[]{ContactsContract.CommonDataKinds.Nickname.NAME };
         Cursor cursor = activity.getContentResolver().query(
                 ContactsContract.Profile.CONTENT_URI, SELF_PROJECTION, null, null, null);
         cursor.moveToFirst();
